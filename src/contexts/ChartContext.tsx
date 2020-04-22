@@ -5,6 +5,7 @@ export type Chart = {
     id: number;
     columnName: string;
     value: number;
+    color: string;
 }
 
 type ChartsState = Chart[];
@@ -12,9 +13,10 @@ type ChartsState = Chart[];
 const ChartsStateContext = createContext<ChartsState | undefined>(undefined);
 
 type Action = 
-    | { type: 'CREATE'; columnName: string; value: number}
-    | {type: 'UPDATE'; id: number, columnName: string; value: number}
-    | {type: 'DELETE'; id: number};
+    | { type: 'CREATE';
+        payload : { columnName: string; value: number; color: string }}
+    | {type: 'DELETE'; 
+       payload: {id: number}};
 
 type ChartsDispatch = Dispatch<Action>;
 const ChartsDispatchContext = createContext<ChartsDispatch | undefined>(undefined);
@@ -24,18 +26,18 @@ function chartsReducer(state: ChartsState, action: Action): ChartsState {
     switch (action.type) {
         case 'CREATE':
             const nextID = Math.max(...state.map(todo => todo.id)) + 1;
+            const {columnName, value, color} = action.payload;
             return [
                 ...state,
                 {
                     id: nextID,
-                    columnName: action.columnName,
-                    value: action.value
+                    columnName,
+                    value,
+                    color
                 }
             ]
-        case 'UPDATE':
-            return state.map(col => col.id === action.id ? {...col, columnName : action.columnName, value: action.value,} : col);
         case 'DELETE':
-            return state.filter(col => col.id !== action.id);
+            return state.filter(col => col.id !== action.payload.id);
         default: 
             throw new Error('Unhandeld action');
     }
@@ -46,12 +48,14 @@ export function ChartsContextProvider({children}: {children: React.ReactNode}) {
         {
             id: 1,
             columnName: '좋아요',
-            value : 4
+            value : 4,
+            color: 'red'
         },
         {
             id: 2,
             columnName: '싫어요',
-            value: 5
+            value: 5,
+            color: 'blue'
         }
     ]);
     
