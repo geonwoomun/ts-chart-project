@@ -14,7 +14,7 @@ const ColumnForm = () => {
             type:"CREATE",
             payload:{
                 columnName,
-                value,
+                value: Number(value),
                 color
             }
         });

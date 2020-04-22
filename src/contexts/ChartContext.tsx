@@ -25,7 +25,7 @@ const ChartsDispatchContext = createContext<ChartsDispatch | undefined>(undefine
 function chartsReducer(state: ChartsState, action: Action): ChartsState {
     switch (action.type) {
         case 'CREATE':
-            const nextID = Math.max(...state.map(todo => todo.id)) + 1;
+            const nextID = state.length !== 0 ? Math.max(...state.map(todo => todo.id)) + 1 : 1;
             const {columnName, value, color} = action.payload;
             return [
                 ...state,
