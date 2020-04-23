@@ -8,7 +8,7 @@ export type Chart = {
     color: string;
 }
 
-type ChartsState = Chart[];
+export type ChartsState = Chart[];
 
 const ChartsStateContext = createContext<ChartsState | undefined>(undefined);
 

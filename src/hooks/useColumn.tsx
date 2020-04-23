@@ -16,6 +16,13 @@ export function useColumn() {
         }));
     }, []);
 
+    const onChangeColor = useCallback((color) => {
+        setColumn(prev => ({
+            ...prev,
+            color: color.hex
+        }))
+    }, []);
+
     const resetColumn = useCallback(() => {
         setColumn({
             columnName: '',
@@ -27,6 +34,7 @@ export function useColumn() {
     return {
         column,
         onChangeColumn,
+        onChangeColor,
         resetColumn
     }
 }

@@ -4,12 +4,16 @@ import ColumnItem from './ColumnItem';
 import { useChartsState } from '../contexts/ChartContext';
 
 const ColumnList = () => {
-    const Charts = useChartsState()
-    return (
-        <ul>
-          {Charts.map((chart) => <ColumnItem key={chart.id} chart={chart}/> )}   
-        </ul>
-    );
+  const Charts = useChartsState();
+  return (
+    <section>
+      <ul>
+        {Charts.map((chart) => (
+          <ColumnItem key={chart.id} chart={chart} />
+        ))}
+      </ul>
+    </section>
+  );
 };
 
 export default ColumnList;
