@@ -10,54 +10,76 @@ export type Chart = {
 
 export type ChartsState = Chart[];
 
-const ChartsStateContext = createContext<ChartsState | undefined>(undefined);
+export type TotalState = {
+    title: string,
+    chartsState: ChartsState
+}
+const ChartsStateContext = createContext<TotalState | undefined>(undefined);
 
 type Action = 
-    | { type: 'CREATE';
+    | {type: 'TITLE/UPDATE';
+       payload: { title: string }}
+    | { type: 'COLUMN/CREATE';
         payload : { columnName: string; value: number; color: string }}
-    | {type: 'DELETE'; 
+    | {type: 'COLUMN/DELETE'; 
        payload: {id: number}};
 
 type ChartsDispatch = Dispatch<Action>;
 const ChartsDispatchContext = createContext<ChartsDispatch | undefined>(undefined);
 
 
-function chartsReducer(state: ChartsState, action: Action): ChartsState {
+function chartsReducer(state: TotalState, action: Action): TotalState {
     switch (action.type) {
-        case 'CREATE':
-            const nextID = state.length !== 0 ? Math.max(...state.map(todo => todo.id)) + 1 : 1;
-            const {columnName, value, color} = action.payload;
-            return [
-                ...state,
-                {
-                    id: nextID,
-                    columnName,
-                    value,
-                    color
-                }
-            ]
-        case 'DELETE':
-            return state.filter(col => col.id !== action.payload.id);
-        default: 
-            throw new Error('Unhandeld action');
+      case 'TITLE/UPDATE':
+          const {title} = action.payload;
+          return {
+              ...state,
+              title,
+          }
+      case 'COLUMN/CREATE':
+        const { chartsState } = state;
+        const nextID = chartsState.length !== 0 ? Math.max(...chartsState.map((todo) => todo.id)) + 1 : 1;
+        const { columnName, value, color } = action.payload;
+        return {
+          ...state,
+          chartsState: [
+            ...chartsState,
+            {
+              id: nextID,
+              columnName,
+              value,
+              color,
+            },
+          ],
+        };
+      case 'COLUMN/DELETE':
+        return {
+            ...state,
+            chartsState: state.chartsState.filter((col) => col.id !== action.payload.id)
+        }
+      default:
+        throw new Error('Unhandeld action');
     }
 }
 
 export function ChartsContextProvider({children}: {children: React.ReactNode}) {
-    const [charts, dispatch] = useReducer(chartsReducer, [
-        {
-            id: 1,
-            columnName: '좋아요',
-            value : 4,
-            color: 'red'
-        },
-        {
-            id: 2,
-            columnName: '싫어요',
-            value: 5,
-            color: 'blue'
-        }
-    ]);
+    const [charts, dispatch] = useReducer(chartsReducer, {
+        title: '나만의 차트',
+        chartsState:[
+            {
+                id: 1,
+                columnName: '좋아요',
+                value : 4,
+                color: 'red'
+            },
+            {
+                id: 2,
+                columnName: '싫어요',
+                value: 5,
+                color: 'blue'
+            }
+        ]
+    });
     
     return (
         <ChartsDispatchContext.Provider value={dispatch}>

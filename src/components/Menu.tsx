@@ -1,9 +1,31 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
+const MenuNav = styled.nav`
+  width: 100%;
+  height: 8vh;
+  background: #00b894;
+  & ul {
+    padding: 0;
+    display: flex;
+    list-style: none;
+    justify-content : space-around;
+    align-items: center;
+    height: 100%;
+  }
+  & a {
+    text-decoration: none;
+    color: white;
+    &:hover {
+      color: #ffeaa7;
+    }
+  }
+`;
 
 const Menu = () => {
   return (
-    <nav>
+    <MenuNav>
       <ul>
         <li>
           <Link to='/'>홈</Link>
@@ -21,7 +43,7 @@ const Menu = () => {
           <Link to='/Radar'>레이더차트</Link>
         </li>
       </ul>
-    </nav>
+    </MenuNav>
   );
 };
 

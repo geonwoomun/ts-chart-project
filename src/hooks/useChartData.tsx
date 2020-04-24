@@ -3,7 +3,7 @@ import { Pie, Line, Radar, Bar } from 'react-chartjs-2';
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { ChartsState } from '../contexts/ChartContext';
 
-interface dataType {
+interface IDataType {
     labels: string[];
     datasets: [
         {
@@ -11,33 +11,48 @@ interface dataType {
             data: number[],
             borderWidth: number,
             hoverBorderWidth: number;
-            backgroundColor: string[],
+            backgroundColor: string[] | string,
             fill: boolean
         }
     ] 
 }
+
+interface IOptionType {
+        maintainAspectRatio: true,
+        title : {
+           display: true,
+           text: string
+        },
+        legend: {
+            labels: {
+                fontColor: 'black',
+                fontSize : 20,
+                fontStyle : 'bold'
+            }
+        }
+};
 
 type ChartType = Pie | Radar | Bar | Line;
 
 export function useChartData(state:ChartsState ) {
    
     const [imageUrl, setImageUrl] = useState<string | undefined>('');
+
     const ref = useRef<ChartType | null>(null);
-    const [data, setData] = useState<dataType>({
+    const [data, setData] = useState<IDataType>({
         labels: [],
         datasets: [
             {
-                label : '',
+                label : 'My First Dataset',
                 data: [],
                 borderWidth: 2,
                 hoverBorderWidth: 3,
-                backgroundColor: [
-
-                ],
+                backgroundColor: [],
                 fill: true
             }
         ]
     });
+
     useEffect(() => {
         let labels: string[] = [];
         let values: number[] = [];
@@ -60,12 +75,9 @@ export function useChartData(state:ChartsState ) {
                 }
             ]
         }));
-        const imageUrl = ref.current?.chartInstance.toBase64Image();
-        setImageUrl(imageUrl);
     }, [state]);
     
     const clickDownload = useCallback(() => {
-        ref.current?.chartInstance.resize();
         const imageUrl = ref.current?.chartInstance.toBase64Image();
         setImageUrl(imageUrl);
     }, []);

@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { Radar } from 'react-chartjs-2';
+import { useChartsState } from '../../contexts/ChartContext';
+import { useChartData } from '../../hooks/useChartData';
 
 const data = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June','july','agust'],
@@ -17,9 +19,12 @@ const data = {
   };
 
 const RadarChart = () => {
+  const {chartsState} = useChartsState();
+  const { ref, data, imageUrl, clickDownload } = useChartData(chartsState);
     return (
         <div>
-            <Radar data={data} />
+            <Radar ref={ref} data={data} />
+            <a href={imageUrl} download="myChart.png" onClick={clickDownload} >download</a>
         </div>
     );
 };

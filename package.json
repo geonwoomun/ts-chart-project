@@ -14,12 +14,14 @@
     "@types/react-color": "^3.0.1",
     "@types/react-dom": "^16.9.6",
     "@types/react-router-dom": "^5.1.4",
+    "@types/styled-components": "^5.1.0",
     "chart.js": "^2.9.3",
     "react": "^16.13.1",
     "react-chartjs-2": "^2.9.0",
     "react-color": "^2.18.0",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",
+    "styled-components": "^5.1.0",
     "typescript": "^3.8.3"
   },
   "devDependencies": {

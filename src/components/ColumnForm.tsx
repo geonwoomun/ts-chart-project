@@ -1,28 +1,23 @@
 import * as React from 'react';
-import { useCallback } from 'react';
 import { useColumn } from '../hooks/useColumn';
-import { useChartsDispatch } from '../contexts/ChartContext';
 import { CompactPicker } from 'react-color';
+import styled from 'styled-components';
+
+const ColumnFormSection = styled.article`
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  min-width: 245px;
+`;
 
 const ColumnForm = () => {
-  const dispatch = useChartsDispatch();
 
-  const { column, onChangeColumn, onChangeColor, resetColumn } = useColumn();
+  const { column, onChangeColumn, onChangeColor, addColumn } = useColumn();
   const { columnName, color, value } = column;
 
-  const addColumn = useCallback(() => {
-    dispatch({
-      type: 'CREATE',
-      payload: {
-        columnName,
-        value: Number(value),
-        color,
-      },
-    });
-    resetColumn();
-  }, [column.columnName, column.color, column.value]);
+
   return (
-    <section>
+    <ColumnFormSection>
       <label htmlFor='name'>컬럼명</label>
       <input
         id='name'
@@ -42,7 +37,7 @@ const ColumnForm = () => {
          <input id="color" name="color" value={color} onChange={onChangeColumn}/> */}
       <CompactPicker color={color} onChangeComplete={onChangeColor} />
       <button onClick={addColumn}>추가</button>
-    </section>
+    </ColumnFormSection>
   );
 };
 

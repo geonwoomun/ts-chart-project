@@ -1,15 +1,23 @@
 import * as React from 'react';
 import { Pie } from 'react-chartjs-2';
-import { useChartsState } from '../contexts/ChartContext';
-import { useChartData } from '../hooks/useChartData';
+import { useChartsState } from '../../contexts/ChartContext';
+import { useChartData } from '../../hooks/useChartData';
+import styled from 'styled-components';
 
-
-
+const CanvasStyle = styled.div`
+    width : 800px;
+    height : 800px;
+    & canvas {
+        background : 'white';
+        display: none;
+    }
+`;
 const PieChart = () => {
-    const state = useChartsState();
-    const { ref, data, imageUrl, clickDownload } = useChartData(state);
+    const {chartsState} = useChartsState();
+    const { ref, data, imageUrl, clickDownload } = useChartData(chartsState);
+    
     return (
-        <div style={{width : '800px', height: '800px'}}>
+        <CanvasStyle >
             도넛
             <Pie
                 ref={ref}
@@ -30,9 +38,16 @@ const PieChart = () => {
                              }
                          }
                     } }
+                plugins={[{
+                    beforeDraw: function(chartInstance:any) {
+                        let ctx = chartInstance.chart.ctx;
+                        ctx.fillStyle = "white";
+                        ctx.fillRect(0, 0, chartInstance.chart.width, chartInstance.chart.height);
+                      }
+                }]}
             />
             <a href={imageUrl} download="myChart.png" onClick={clickDownload} >download</a>
-        </div>
+        </CanvasStyle>
     );
 };
 
