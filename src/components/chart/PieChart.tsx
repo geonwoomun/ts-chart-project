@@ -13,7 +13,7 @@ const CanvasStyle = styled.div`
     }
 `;
 const PieChart = () => {
-    const {chartsState} = useChartsState();
+    const { chartsState, title } = useChartsState();
     const { ref, data, imageUrl, clickDownload } = useChartData(chartsState);
     
     return (
@@ -28,7 +28,7 @@ const PieChart = () => {
                          maintainAspectRatio: true,
                          title : {
                             display: true,
-                            text: 'Custom Chart Title'
+                            text: title
                          },
                          legend: {
                              labels: {

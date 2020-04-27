@@ -7,7 +7,7 @@ export function useColumn() {
 
     const [column, setColumn] = useState({
         columnName: '',
-        color: '',
+        color: '#000000',
         value : 0
     });
 

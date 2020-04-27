@@ -19,7 +19,7 @@ import { useChartsState } from '../../contexts/ChartContext';
 // };
 
 const BarChart = () => {
-  const {chartsState} = useChartsState();
+  const { chartsState, title } = useChartsState();
   const { ref, data, imageUrl, clickDownload } = useChartData(chartsState);
    
   return (
@@ -33,7 +33,7 @@ const BarChart = () => {
               maintainAspectRatio: false,
               title: {
                 display: true,
-                text: 'Custom Chart Title'
+                text: title
               },
               scales:{
                   xAxes : [{

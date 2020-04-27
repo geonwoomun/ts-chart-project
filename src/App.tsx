@@ -10,6 +10,7 @@ import ColumnForm from './components/ColumnForm';
 import ColumnList from './components/ColumnList';
 import RadarChart from './components/chart/RadarChart';
 import LineChart from './components/chart/LineChart';
+import Title from './components/Title';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -32,6 +33,7 @@ function App() {
         <ColumnForm />
         <ColumnList />
       </ColumnSection>
+      <Title/>
       <main>
         <Switch>
           <Route exact path='/' render={() => <div>홈</div>} />
